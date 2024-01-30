@@ -121,6 +121,50 @@ namespace EtradeAPI.DAO
             return produtos;
         }
 
+        public List<ProdutoDTO> ListarProdutosUsuario(int idUsuario)
+        { 
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"SELECT 
+                            Produtos.ID AS ProdutoID,
+                            Produtos.Nome AS Produto,
+                            Produtos.Descricao AS DescricaoProduto,
+                            Valor,
+                            StatusProduto.ID AS StatusID,
+                            StatusProduto.Nome AS Status
+                            FROM Produtos 
+                            INNER JOIN StatusProduto
+                            ON Produtos.Status = StatusProduto.ID
+                            WHERE Usuario = @usuario;";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@usuario", idUsuario);
+
+            var dataReader = comando.ExecuteReader();
+
+            var produtos = new List<ProdutoDTO>();
+
+            while (dataReader.Read())
+            {
+                var produto = new ProdutoDTO();
+                var status = new StatusDTO();
+
+                produto.ID = int.Parse(dataReader["ProdutoID"].ToString());
+                produto.Nome = dataReader["Produto"].ToString();
+                produto.Descricao = dataReader["DescricaoProduto"].ToString();
+                produto.Valor = double.Parse(dataReader["Valor"].ToString());
+
+                status.ID = int.Parse(dataReader["StatusID"].ToString());
+                status.Nome = dataReader["Status"].ToString();
+
+                produtos.Add(produto);
+            }
+            conexao.Close();
+
+            return produtos;
+        }
+
         public void AlterarStatusProduto(int produtoID, int statusID)
         {
             var conexao = ConnectionFactory.Build();

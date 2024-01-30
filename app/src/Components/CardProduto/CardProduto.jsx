@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 
-export default function CardProduto() {
+export default function CardProduto({produto}) {
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -13,11 +13,12 @@ export default function CardProduto() {
                 }}></Image>
             </View>
 
-            <View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.text}>Pão de mel recheado com cobertura de chocolate</Text>
+            <View style={styles.content}>
+                <View>
+                    <Text style={styles.title}>{produto.nome}</Text>
+                    <Text style={styles.seller}>{produto.usuario.nome}</Text>
                 </View>
-                <View style={styles.textContainer}>
+                <View style={styles.footer}>
                     <Text style={styles.price}>R$ 4,00</Text >
                 </View>
             </View>
@@ -27,41 +28,50 @@ export default function CardProduto() {
 
 const styles = StyleSheet.create({
     container: {
-        height: 160,
-        width: 120,
+        height: 130,
         borderRadius: 10,
         backgroundColor: '#fff',
-        padding: 5,
+        padding: 15,
         marginLeft: 5,
         marginRight: 5,
         shadowColor: '#171717',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     imageContainer: {
         display: 'flex',
         alignItems: 'center',
-
     },
     image: {
         height: 100,
         width: 110,
         borderRadius: 10,
     },
-
-    textContainer: {
-        marginTop: 5,
-        marginLeft: 5,
-        marginRight: 5
-
+    content: {
+        height: 100,
+        width: 260,
+        marginLeft: 10,
+        justifyContent: 'space-between',
+        padding: 10
     },
-    text: {
-        fontSize: 8,
-        textAlign: 'left'
+    title: {
+        fontSize: 15,
+        fontWeight: '500'
+    },
+    seller: {
+        fontSize: 12,
+        fontWeight: '450'
+    },
+    footer: {
+        display: 'flex',
+        flexDirection: 'row-reverse'
     },
     price: {
-        fontSize: 11,
+        fontSize: 17,
         fontWeight: 'bold',
         textAlign: 'left'
     }

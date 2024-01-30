@@ -36,7 +36,7 @@ namespace EtradeAPI.DAO
                         SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@nome", usuario.Nome);
+            comando.Parameters.AddWithValue("@nome", usuario.Nome);     
             comando.Parameters.AddWithValue("@email", usuario.Email);
             comando.Parameters.AddWithValue("@senha", usuario.Senha);
             comando.Parameters.AddWithValue("@descricao", usuario.Descricao);

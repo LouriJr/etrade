@@ -45,6 +45,16 @@ namespace EtradeAPI.Controllers
             return Ok(produtos);
         }
 
+        [HttpGet]
+        [Route("ListarProdutosUsuario")]
+        public IActionResult ListarProdutosUsuario(int idUsuario)
+        {
+            var dao = new ProdutosDAO();
+            var produtos = dao.ListarProdutosUsuario(idUsuario);
+
+            return Ok(produtos);
+        }
+
         [HttpPut]
         [Route("status")]
         public IActionResult AlterarStatusProduto(int produtoID, int statusID)

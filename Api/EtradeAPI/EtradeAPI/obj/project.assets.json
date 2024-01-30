@@ -2582,11 +2582,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\repos\\Etec\\Etrade\\Api\\EtradeAPI\\EtradeAPI\\EtradeAPI.csproj",
+      "projectUniqueName": "C:\\repos\\etrade\\Api\\EtradeAPI\\EtradeAPI\\EtradeAPI.csproj",
       "projectName": "EtradeAPI",
-      "projectPath": "C:\\repos\\Etec\\Etrade\\Api\\EtradeAPI\\EtradeAPI\\EtradeAPI.csproj",
+      "projectPath": "C:\\repos\\etrade\\Api\\EtradeAPI\\EtradeAPI\\EtradeAPI.csproj",
       "packagesPath": "C:\\Users\\Louri\\.nuget\\packages\\",
-      "outputPath": "C:\\repos\\Etec\\Etrade\\Api\\EtradeAPI\\EtradeAPI\\obj\\",
+      "outputPath": "C:\\repos\\etrade\\Api\\EtradeAPI\\EtradeAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Louri\\AppData\\Roaming\\NuGet\\NuGet.Config",
