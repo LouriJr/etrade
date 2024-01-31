@@ -31,16 +31,15 @@ const styles = StyleSheet.create({
         height: 130,
         borderRadius: 10,
         backgroundColor: '#fff',
-        padding: 15,
+        padding: 16,
         marginLeft: 5,
         marginRight: 5,
         shadowColor: '#171717',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 2,
-        display: 'flex',
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'space-between'
     },
     imageContainer: {
         display: 'flex',
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     },
     content: {
         height: 100,
-        width: 260,
+        width: '70%',
         marginLeft: 10,
         justifyContent: 'space-between',
         padding: 10
@@ -68,6 +67,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         display: 'flex',
+        marginRight: 10,
         flexDirection: 'row-reverse'
     },
     price: {
