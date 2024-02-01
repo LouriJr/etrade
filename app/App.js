@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHome, faUser } from '@fortawesome/free-solid-svg-icons';
+import HomeStackNavigation from './src/Pages/Home/HomeStackNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,15 +15,15 @@ export default function App() {
     <NavigationContainer>
       <View style={{ flex: 1 }}>
         <Header></Header>
-        <Tab.Navigator 
+        <Tab.Navigator
           screenOptions={{ headerShown: false }}
           tabBarOptions={{
-            activeTintColor: '#B20000',  
-            inactiveTintColor: 'gray', 
-            labelStyle: { display: 'none' }, 
-            style: { borderTopWidth: 0 }, 
+            activeTintColor: '#B20000',
+            inactiveTintColor: 'gray',
+            labelStyle: { display: 'none' },
+            style: { borderTopWidth: 0 },
           }}>
-          <Tab.Screen name="Home" component={Home} options={{
+          <Tab.Screen name="Home" component={HomeStackNavigation} options={{
             tabBarIcon: ({ color, size }) => (
               <FontAwesomeIcon icon={faHome} color={color} size={size} />
             ),

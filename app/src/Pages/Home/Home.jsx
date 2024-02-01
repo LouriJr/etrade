@@ -1,10 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Pressable, View, Text } from 'react-native'
 import SecaoProdutos from '../../Components/SecaoProdutos/SecaoProdutos'
 import { PanGestureHandler, ScrollView } from 'react-native-gesture-handler'
 import HomeImage from '../../Components/HomeImage/HomeImage';
 
-export default function Home() {
+export default function Home({ navigation }) {
 
     return (
         <View>
@@ -12,6 +12,9 @@ export default function Home() {
                 <ScrollView nestedScrollEnabled={false}>
                     <HomeImage></HomeImage>
                     <SecaoProdutos></SecaoProdutos>
+                    <Pressable onPress={() => navigation.navigate('Abacaxi')} >
+                        <Text>Ir para a pag Abacaxi papapalmeiras</Text>
+                    </Pressable>
                 </ScrollView>
             </PanGestureHandler>
         </View>
