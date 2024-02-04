@@ -12,7 +12,7 @@ export default function Home({ navigation }) {
                 <ScrollView nestedScrollEnabled={false}>
                     <HomeImage></HomeImage>
                     <SecaoProdutos></SecaoProdutos>
-                    <Pressable onPress={() => navigation.navigate('Abacaxi')} >
+                    <Pressable onPress={() => navigation.navigate('Produto')} >
                         <Text>Ir para a pag Abacaxi papapalmeiras</Text>
                     </Pressable>
                 </ScrollView>

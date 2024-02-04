@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Home';
-import Teste from './Teste';
+import Produto from '../Produto/Produto';
 
 const Stack = createStackNavigator();
 
@@ -14,8 +14,8 @@ export default function HomeStackNavigation() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Abacaxi"
-        component={Teste}
+        name="Produto"
+        component={Produto}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
