@@ -1,80 +1,63 @@
 import React from 'react';
-import { View } from 'react-native';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
-import Carousel from 'react-native-reanimated-carousel';
+import { Text, Dimensions, StyleSheet, View, ScrollView, Pressable } from 'react-native';
+import { SwiperFlatList } from 'react-native-swiper-flatlist';
 
-export default function Produto({ produto, navigation }) {
-    const x = ['https://via.placeholder.com/200x140', 'https://via.placeholder.com/200x140'];
+const colors = ['tomato', 'thistle', 'skyblue', 'teal'];
 
-    const handleVoltarPress = () => {
-        // Adicione lógica para voltar à tela anterior
-        navigation.goBack();
-    };
 
-    const handleComprarPress = () => {
-        // Adicione lógica para processar a compra
-        console.log('Produto comprado!');
-    };
-
+export default function Produto() {
     return (
-        <SafeAreaView style={styles.container}>
-            {/* Botão de Voltar */}
-            <TouchableOpacity style={styles.voltarButton} onPress={handleVoltarPress}>
-                <Text>Voltar</Text>
-            </TouchableOpacity>
 
-            <ScrollView style={styles.scrollView}>
-                {/* Carrossel de Fotos */}
-                <View style={styles.carouselContainer}>
-                    <Carousel style={styles.carousel}>
-                        {x.map((imagem, index) => (
-                            <Image key={index} source={{ uri: imagem }} style={styles.carouselImage} />
-                        ))}
-                    </Carousel>
+        <ScrollView>
+            <View style={styles.container}>
+
+                <Pressable style={styles.voltarButton}>
+                    <Text>Voltar</Text>
+                </Pressable>
+                <View style={styles.swiper}>
+                    <SwiperFlatList
+                        index={0}
+                        showPagination
+                        paginationStyleItem={{ width: 10, height: 10, borderRadius: 5 }}
+                        data={colors}
+                        renderItem={({ item }) => (
+                            <View style={[styles.child, { backgroundColor: item }]}>
+                                <Text style={styles.text}>{item}</Text>
+                            </View>
+                        )}
+                    />
                 </View>
-
-                {/* Botão Comprar */}
-                <TouchableOpacity style={styles.comprarButton} onPress={handleComprarPress}>
-                    <Text>Comprar</Text>
-                </TouchableOpacity>
-
-                {/* Descrição do Produto */}
-                <Text style={styles.text}>Desc</Text>
-            </ScrollView>
-        </SafeAreaView>
-    );
+                <View style={styles.productDetails}>
+                    <Text style={styles.productDescription}>
+                        Descrição do Produto: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum, justo sit amet cursus congue, dolor augue consectetur libero.
+                    </Text>
+                    <Pressable style={styles.comprarButton}>
+                        <Text>Comprar</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.productDetails}>
+                    <Text style={styles.productDescription}>
+                        Descrição do Produto: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum, justo sit amet cursus congue, dolor augue consectetur libero.
+                    </Text>
+                    <Pressable style={styles.comprarButton}>
+                        <Text>Comprar</Text>
+                    </Pressable>
+                </View>
+                <View style={styles.productDetails}>
+                    <Text style={styles.productDescription}>
+                        Descrição do Produto: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc condimentum, justo sit amet cursus congue, dolor augue consectetur libero.
+                    </Text>
+                    <Pressable style={styles.comprarButton}>
+                        <Text>Comprar</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </ScrollView>
+    )
 }
-
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    carouselContainer: {
-        flex: 1,
-    },
-    scrollView: {
-        paddingHorizontal: 16,
-    },
-    voltarButton: {
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        padding: 8,
-    },
-    comprarButton: {
-        marginTop: 16,
-        backgroundColor: 'green', // Cor de fundo do botão comprar
-        padding: 12,
-        alignItems: 'center',
-    },
-    text: {
-        marginTop: 16,
-    },
-    carousel: {
-        flex: 1,
-    },
-    carouselImage: {
-        flex: 1,
-        width: '100%',
-    },
+    container: { flex: 1, backgroundColor: 'white' },
+    child: { width, justifyContent: 'center' },
+    text: { fontSize: width * 0.5, textAlign: 'center' },
 });
