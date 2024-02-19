@@ -1,15 +1,18 @@
 
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-export default function CardProduto({produto}) {
+export default function CardProduto({ produto }) {
+    const navigation = useNavigation();
+
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Produto', { produto })}>
             <View style={styles.imageContainer}>
                 <Image style={styles.image} source={{
-                    uri: 'https://harald.com.br/wp-content/uploads/2018/04/pao-de-mel-fofinho-700x520-1.jpg',
+                    uri: produto.imagens[0]?.link,
                 }}></Image>
             </View>
 
@@ -22,7 +25,7 @@ export default function CardProduto({produto}) {
                     <Text style={styles.price}>R$ 4,00</Text >
                 </View>
             </View>
-        </View>
+        </TouchableOpacity >
     )
 }
 
@@ -39,7 +42,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 2,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: 15
     },
     imageContainer: {
         display: 'flex',
@@ -58,12 +62,12 @@ const styles = StyleSheet.create({
         padding: 10
     },
     title: {
-        fontSize: 15,
-        fontWeight: '500'
+        fontSize: 18,
+        fontWeight: '600'
     },
     seller: {
-        fontSize: 12,
-        fontWeight: '450'
+        fontSize: 14,
+        fontWeight: '500'
     },
     footer: {
         display: 'flex',
