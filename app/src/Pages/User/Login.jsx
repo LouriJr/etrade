@@ -3,22 +3,37 @@ import { Dimensions, View, Image, TextInput, StyleSheet, Text, TouchableOpacity,
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import logo from '../../../assets/logoVermelho.png';
 import Svg, { Path } from 'react-native-svg';
+import { SalvarJWT } from "../../Services/AuthService";
+import { ErrorMessage } from '../../Services/ToastService';
+import axios from 'axios';
+import { API_URL } from '@env'
+import { useNavigation } from '@react-navigation/native';
 
-export default function Login({navigation}) {
+export default function Login() {
+    const navigation = useNavigation();
 
     const { width } = Dimensions.get('window');
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    const handleLogin = () => {
-        console.log('Email:', email);
-        console.log('Senha:', senha);
-
-        setEmail('');
-        setSenha('');
+    async function realizarLogin() {
+        const body = new URLSearchParams({
+            email,
+            senha,
+        });
+        try {
+            const respostaLogin = await axios.post(API_URL + '/Usuarios/Login', body);
+            await SalvarJWT(respostaLogin.data.token);
+            navigation.replace('MeusProdutos');
+        } catch (error) {
+            if (error.response?.status === 401) {
+                ErrorMessage("Erro ao realizar login", "E-mail e/ou senha inválidos!");
+                return;
+            }
+            ErrorMessage("Erro ao realizar login", "Houve um erro no servidor ao realizar o seu login\r\nTente novamente mais tarde.");
+        }
     };
-
 
     return (
         <View>
@@ -66,12 +81,9 @@ export default function Login({navigation}) {
                                         secureTextEntry={true}
                                     />
                                 </View>
-                                <View style={styles.buttonContainer}>
-
-                                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('MeusProdutos')}>
-                                        <Text style={{ color: '#fff' }}>Entrar</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                <TouchableOpacity style={styles.button} onPress={realizarLogin}>
+                                    <Text style={{ color: '#fff' }}>Entrar</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>

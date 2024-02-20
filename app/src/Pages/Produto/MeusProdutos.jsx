@@ -83,9 +83,14 @@ export default function MeusProdutos() {
             <GestureHandlerRootView>
                 <PanGestureHandler>
                     <ScrollView nestedScrollEnabled={false} contentContainerStyle={styles.container}>
-                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CadastroProduto")}>
-                            <FontAwesomeIcon icon={faPlus} style={{ color: '#fff' }} size={24} />
-                        </TouchableOpacity>
+                        <View style={styles.titleContainer}>
+                            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("CadastroProduto")}>
+                                <FontAwesomeIcon icon={faPlus} style={{ color: '#fff' }} size={24} />
+                            </TouchableOpacity>
+                            <Text style={styles.title}>
+                                Meus Produtos
+                            </Text>
+                        </View>
                         <ListaDeProdutos produtos={produtos}></ListaDeProdutos>
                     </ScrollView>
                 </PanGestureHandler>
@@ -97,6 +102,15 @@ export default function MeusProdutos() {
 const styles = StyleSheet.create({
     container: {
         padding: 15
+    },
+    titleContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginLeft: 15,
     },
     buttonContainer: {
         width: "100%",

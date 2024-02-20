@@ -3,15 +3,8 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-regular-svg-icons';
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
-import { useEffect } from 'react';
 
 export default function FiltroTurnoOption({ turno, selecionado, selecionar, height }) {
-
-    useEffect(() => {
-        console.log(turno, selecionado);
-    }, [])
-
-
     let icon;
     switch (turno) {
         default:
