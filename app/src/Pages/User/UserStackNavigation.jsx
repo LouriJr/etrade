@@ -38,12 +38,13 @@ export default function UserStackNavigation() {
                     options={{ headerShown: false }}
                 />
             }
-            <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{ headerShown: false }}
-            />
-
+            {!usuarioLogado &&
+                <Stack.Screen
+                    name="Login"
+                    component={Login}
+                    options={{ headerShown: false }}
+                />
+            }
             <Stack.Screen
                 name="MeusProdutos"
                 component={MeusProdutos}
@@ -54,8 +55,6 @@ export default function UserStackNavigation() {
                 component={CadastroProduto}
                 options={{ headerShown: false }}
             />
-
-
         </Stack.Navigator>
     )
 }

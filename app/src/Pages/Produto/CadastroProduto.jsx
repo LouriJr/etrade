@@ -14,8 +14,11 @@ import * as ImagePicker from 'expo-image-picker';
 import ImageSlider from '../../Components/ImageSlider/ImageSlider';
 import axios from 'axios';
 import { API_URL } from '@env'
+import { SuccessMessage, ErrorMessage } from '../../Services/ToastService';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CadastroProduto() {
+    const navigation = useNavigation();
 
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -24,17 +27,41 @@ export default function CadastroProduto() {
 
     async function cadastrar() {
 
-        const body = {
-            nome,
-            descricao,
-            valor,
-            imagens,
-            usuario: {
-                id: 1
-            }
+        if (imagens.length < 1) {
+            ErrorMessage("Erro ao cadastrar", "Selecione ao menos uma imagem para seu produto!");
+            return;
+        }
+        if (!nome) {
+            ErrorMessage("Erro ao cadastrar - Nome inválido", "Parece que o campo de nome não foi preenchido. Verifique e tente novamente.");
+            return;
+        }
+        if (!valor || valor <= 0) {
+            ErrorMessage("Erro ao cadastrar - Valor inválido", "Parece que o campo de valor preenchido é inválido. Verifique e tente novamente.");
+            return;
+        }
+        if (!descricao) {
+            ErrorMessage("Erro ao cadastrar - Descrição inválida", "Parece que o campo de descrição não foi preenchido. Verifique e tente novamente.");
+            return;
         }
 
-        const resultadoCadastro = await axios.post(API_URL + '/Produtos/Cadastrar', body);
+        try {
+
+            const body = {
+                nome,
+                descricao,
+                valor,
+                imagens,
+                usuario: {
+                    id: 1
+                }
+            }
+
+            await axios.post(API_URL + '/Produtos/Cadastrar', body);
+            SuccessMessage("Cadastrado com sucesso!", `Faça login para anunciar e vender!`);
+            navigation.navigate('MeusProdutos');
+        } catch (error) {
+            ErrorMessage("Erro ao cadastrar", "Ops! Parece que houve um erro ao cadastrar.\r\nTente novamente mais tarde.");
+        }
     }
 
     async function selecionarImagem() {

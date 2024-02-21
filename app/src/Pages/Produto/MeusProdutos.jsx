@@ -5,78 +5,35 @@ import ListaDeProdutos from '../../Components/ListaDeProdutos/ListaDeProdutos'
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
+import axios from 'axios';
 
 export default function MeusProdutos() {
 
     const navigation = useNavigation();
 
-    const [produtos, setProdutos] = useState([
-        {
-            "id": 1,
-            "nome": "Pão Doce",
-            "descricao": "Pão",
-            "valor": 12,
-            "usuario": {
-                "id": 1,
-                "nome": "Nathan",
-                "email": null,
-                "senha": null,
-                "descricao": null,
-                "celular": "string",
-                "tipo": null,
-                "turnos": null
-            },
-            "status": null,
-            "imagens": []
-        },
-        {
-            "id": 2,
-            "nome": "Pão Salgado",
-            "descricao": "Pão",
-            "valor": 12,
-            "usuario": {
-                "id": 1,
-                "nome": "Nathan",
-                "email": null,
-                "senha": null,
-                "descricao": null,
-                "celular": "string",
-                "tipo": null,
-                "turnos": null
-            },
-            "status": null,
-            "imagens": []
-        },
-        {
-            "id": 5,
-            "nome": "Palmeiras",
-            "descricao": "Palmeiras",
-            "valor": 10,
-            "usuario": {
-                "id": 1,
-                "nome": "Nathan",
-                "email": null,
-                "senha": null,
-                "descricao": null,
-                "celular": "11934906106",
-                "tipo": null,
-                "turnos": null
-            },
-            "status": null,
-            "imagens": [
-                {
-                    "id": 0,
-                    "link": "https://etradeetec.blob.core.windows.net/etrade/1926ecd7-40e1-4d9f-951d-a9b9652d75ab.jpg",
-                    "base64": null
-                },
-                {
-                    "id": 0,
-                    "link": "https://etradeetec.blob.core.windows.net/etrade/e46c0519-c500-4afa-9783-26b6d215dffd.jpg",
-                    "base64": null
-                }
-            ]
+    const [produtosIndisponiveis, setProdutosIndisponiveis] = useState([]);
+    const [produtosDisponiveis, setProdutosDisponiveis] = useState([]);
+    const [produtosPendentes, setProdutosPendentes] = useState([]);
+
+    useEffect(() => {
+        ListarProdutos();
+    }, []);
+
+    async function ListarProdutos() {
+        const response = await axios.get(API_URL + '/Produtos/ListarProdutosUsuario?idUsuario=' + 1);
+
+        if (response.status !== 200) {
+            alert('Erro ao listar produtos');
+            return;
         }
-    ]);
+        const produtosPendentes = response.data.filter(item => item.status.id === 1);
+        const produtosDisponiveis = response.data.filter(item => item.status.id === 2);
+        const produtosIndisponiveis = response.data.filter(item => item.status.id === 3);
+        setProdutosPendentes(produtosPendentes);
+        setProdutosDisponiveis(produtosDisponiveis);
+        setProdutosIndisponiveis(produtosIndisponiveis);
+    }
 
     return (
         <View>
@@ -91,7 +48,20 @@ export default function MeusProdutos() {
                                 Meus Produtos
                             </Text>
                         </View>
-                        <ListaDeProdutos produtos={produtos}></ListaDeProdutos>
+                        <View >
+                            <Text style={styles.sectionText}>Disponíveis</Text>
+                            <ListaDeProdutos produtos={produtosDisponiveis}></ListaDeProdutos>
+                        </View>
+
+                        <View>
+                            <Text style={styles.sectionText}>Pendentes</Text>
+                            <ListaDeProdutos produtos={produtosPendentes}></ListaDeProdutos>
+                        </View>
+
+                        <View>
+                            <Text style={styles.sectionText}>Indisponíveis</Text>
+                            <ListaDeProdutos produtos={produtosIndisponiveis}></ListaDeProdutos>
+                        </View>
                     </ScrollView>
                 </PanGestureHandler>
             </GestureHandlerRootView>
@@ -111,6 +81,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         marginLeft: 15,
+    },
+    sectionText: {
+        fontSize: 18,
+        fontWeight: '600',
+        marginLeft: 15,
+        marginTop: 20,
+        marginBottom: 10
     },
     buttonContainer: {
         width: "100%",

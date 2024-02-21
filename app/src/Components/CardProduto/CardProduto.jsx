@@ -7,19 +7,22 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function CardProduto({ produto }) {
     const navigation = useNavigation();
+    console.log(produto);
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Produto', { produto })}>
             <View style={styles.imageContainer}>
-                <Image style={styles.image} source={{
-                    uri: produto.imagens[0]?.link,
-                }}></Image>
+                {/* <Image style={styles.image} source={{
+                    uri: produto.imagens[0]?.link ?? "",
+                }}></Image> */}
             </View>
 
             <View style={styles.content}>
                 <View>
                     <Text style={styles.title}>{produto.nome}</Text>
-                    <Text style={styles.seller}>{produto.usuario.nome}</Text>
+                    {produto.usuario?.nome &&
+                        <Text style={styles.seller}>{produto.usuario.nome}</Text>
+                    }
                 </View>
                 <View style={styles.footer}>
                     <Text style={styles.price}>R$ 4,00</Text >

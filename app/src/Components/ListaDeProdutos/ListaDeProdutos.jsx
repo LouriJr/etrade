@@ -6,7 +6,7 @@ export default function ListaDeProdutos({ produtos }) {
         <View>
             <View style={styles.productsContainer} >
                 {
-                    produtos.map((produto, index) => (
+                    produtos?.map((produto, index) => (
                         <CardProduto key={index} produto={produto}></CardProduto>
                     ))
                 }

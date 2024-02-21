@@ -122,3 +122,8 @@ C:\repos\etrade\Api\EtradeAPI\EtradeAPI\obj\Debug\net5.0\refint\EtradeAPI.dll
 C:\repos\etrade\Api\EtradeAPI\EtradeAPI\obj\Debug\net5.0\EtradeAPI.pdb
 C:\repos\etrade\Api\EtradeAPI\EtradeAPI\obj\Debug\net5.0\EtradeAPI.genruntimeconfig.cache
 C:\repos\etrade\Api\EtradeAPI\EtradeAPI\obj\Debug\net5.0\ref\EtradeAPI.dll
+C:\repos\etrade\Api\EtradeAPI\EtradeAPI\bin\Debug\net5.0\Azure.Core.dll
+C:\repos\etrade\Api\EtradeAPI\EtradeAPI\bin\Debug\net5.0\Azure.Storage.Blobs.dll
+C:\repos\etrade\Api\EtradeAPI\EtradeAPI\bin\Debug\net5.0\Azure.Storage.Common.dll
+C:\repos\etrade\Api\EtradeAPI\EtradeAPI\bin\Debug\net5.0\System.IO.Hashing.dll
+C:\repos\etrade\Api\EtradeAPI\EtradeAPI\bin\Debug\net5.0\System.Memory.Data.dll

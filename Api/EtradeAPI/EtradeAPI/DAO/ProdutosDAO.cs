@@ -150,11 +150,21 @@ namespace EtradeAPI.DAO
                             Produtos.Nome AS Produto,
                             Produtos.Descricao AS DescricaoProduto,
                             Valor,
+
+                            Usuarios.ID AS UsuarioID,
+                            Usuarios.Nome AS Usuario,
+                            Celular,
+
                             StatusProduto.ID AS StatusID,
                             StatusProduto.Nome AS Status
                             FROM Produtos 
+
                             INNER JOIN StatusProduto
                             ON Produtos.Status = StatusProduto.ID
+
+                            INNER JOIN Usuarios 
+                            ON Produtos.Usuario = Usuarios.ID
+
                             WHERE Usuario = @usuario;";
 
             var comando = new MySqlCommand(query, conexao);
@@ -167,6 +177,7 @@ namespace EtradeAPI.DAO
             while (dataReader.Read())
             {
                 var produto = new ProdutoDTO();
+                var usuario = new UsuarioDTO();
                 var status = new StatusDTO();
 
                 produto.ID = int.Parse(dataReader["ProdutoID"].ToString());
@@ -174,8 +185,15 @@ namespace EtradeAPI.DAO
                 produto.Descricao = dataReader["DescricaoProduto"].ToString();
                 produto.Valor = double.Parse(dataReader["Valor"].ToString());
 
+                usuario.ID = int.Parse(dataReader["UsuarioID"].ToString());
+                usuario.Nome = dataReader["Usuario"].ToString();
+                usuario.Celular = dataReader["Celular"].ToString();
+
                 status.ID = int.Parse(dataReader["StatusID"].ToString());
                 status.Nome = dataReader["Status"].ToString();
+
+                produto.Usuario = usuario;
+                produto.Status = status;
 
                 produtos.Add(produto);
             }
