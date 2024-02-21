@@ -1,4 +1,5 @@
-﻿using EtradeAPI.DAO;
+﻿using EtradeAPI.Azure;
+using EtradeAPI.DAO;
 using EtradeAPI.DTO;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,14 @@ namespace EtradeAPI.Controllers
         [Route("Cadastrar")]
         public IActionResult Cadastrar([FromBody] ProdutoDTO produto)
         {
+            var azureBlobStorage = new AzureBlobStorage();
+
+            foreach (var imagem in produto.Imagens)
+            {
+                var linkDaImagem = azureBlobStorage.UploadImage(imagem.Base64);
+                imagem.Link = linkDaImagem;
+            }
+
             //Todo produto quando cadastrado deve ter o Status pendente, ou seja, aguardando aprovação.
             var statusPendente = new StatusDTO();
             statusPendente.ID = 1;
@@ -26,7 +35,6 @@ namespace EtradeAPI.Controllers
 
         [HttpGet]
         [Route("ListarPorTurno")]
-
         public IActionResult ListarPorTurno(int turno)
         {
             var dao = new ProdutosDAO();

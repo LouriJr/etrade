@@ -6,15 +6,16 @@ namespace EtradeAPI.DAO
 {
     public class UsuariosDAO
     {
-        public bool ValidarSeUsuarioExiste(string email)
+        public bool ValidarSeUsuarioExiste(UsuarioDTO usuario)
         {
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"SELECT COUNT(*) FROM Usuarios WHERE Email = @email";
+            var query = @"SELECT COUNT(*) FROM Usuarios WHERE Email = @email OR Celular = @celular";
 
             var comando = new MySqlCommand(query, conexao);
-            comando.Parameters.AddWithValue("@email", email);
+            comando.Parameters.AddWithValue("@email", usuario.Email);
+            comando.Parameters.AddWithValue("@celular", usuario.Celular);
 
             // ExecuteScalar retorna a contagem de registros encontrados
             int quantidadeUsuarios = Convert.ToInt32(comando.ExecuteScalar());
@@ -30,8 +31,8 @@ namespace EtradeAPI.DAO
             var conexao = ConnectionFactory.Build();
             conexao.Open();
 
-            var query = @"INSERT INTO Usuarios (Nome, Email, Senha, Descricao, Celular, Tipo) VALUES
-						(@nome,@email,@senha,@descricao,@celular,@tipo);
+            var query = @"INSERT INTO Usuarios (Nome, Email, Senha, Celular, Tipo) VALUES
+						(@nome,@email,@senha,@celular,@tipo);
 
                         SELECT LAST_INSERT_ID();";
 
@@ -39,7 +40,6 @@ namespace EtradeAPI.DAO
             comando.Parameters.AddWithValue("@nome", usuario.Nome);     
             comando.Parameters.AddWithValue("@email", usuario.Email);
             comando.Parameters.AddWithValue("@senha", usuario.Senha);
-            comando.Parameters.AddWithValue("@descricao", usuario.Descricao);
             comando.Parameters.AddWithValue("@celular", usuario.Celular);
             comando.Parameters.AddWithValue("@tipo", usuario.Tipo.ID);
 
@@ -79,7 +79,6 @@ namespace EtradeAPI.DAO
                 usuario.ID = int.Parse(dataReader["ID"].ToString());
                 usuario.Nome = dataReader["Nome"].ToString();
                 usuario.Email = dataReader["Email"].ToString();
-                usuario.Descricao = dataReader["Descricao"].ToString();
                 usuario.Celular = dataReader["Celular"].ToString();
             }
             conexao.Close();

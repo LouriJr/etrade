@@ -20,11 +20,11 @@ namespace EtradeAPI.Controllers
         public IActionResult Cadastrar([FromBody] UsuarioDTO usuario)
         {            
             var dao = new UsuariosDAO();
-            var usuarioExiste = dao.ValidarSeUsuarioExiste(usuario.Email);
+            var usuarioExiste = dao.ValidarSeUsuarioExiste(usuario);
 
             if (usuarioExiste)
             {
-                return BadRequest("Usuário já cadastrado!");
+                return Conflict("Usuário já cadastrado!");
             }
 
             dao.Cadastrar(usuario);
@@ -64,7 +64,7 @@ namespace EtradeAPI.Controllers
                 "APIUsuarios",
                 "APIUsuarios",
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(1),
+                expires: DateTime.UtcNow.AddDays(15),
                 signingCredentials: credentials
             );
 

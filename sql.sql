@@ -22,7 +22,6 @@ CREATE TABLE Usuarios (
 	Nome VARCHAR (100),
 	Email VARCHAR (100),
     Senha VARCHAR (1000),
-    Descricao VARCHAR (300),
     Celular VARCHAR (15),
 	Tipo INT NOT NULL,
     FOREIGN KEY (Tipo) REFERENCES TiposDeUsuario(ID)
@@ -52,5 +51,12 @@ CREATE TABLE Produtos (
     Status INT NOT NULL,
     FOREIGN KEY (Status) REFERENCES StatusProduto(ID),
     FOREIGN KEY (Usuario) REFERENCES Usuarios(ID)
+);
+
+CREATE TABLE ImagensProduto (
+	ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    Link VARCHAR(255),
+    Produto INT NOT NULL,
+    FOREIGN KEY (Produto) REFERENCES Produtos(ID)
 );
 	

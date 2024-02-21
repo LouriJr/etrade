@@ -1,4 +1,6 @@
-﻿namespace EtradeAPI.DTO
+﻿using System.Collections.Generic;
+
+namespace EtradeAPI.DTO
 {
     public class ProdutoDTO
     {
@@ -8,5 +10,6 @@
         public double Valor { get; set; }
         public UsuarioDTO Usuario { get; set; }
         public StatusDTO Status{ get; set; }
+        public List<ImagemProdutoDTO> Imagens { get; set; }
     }
 }

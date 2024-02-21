@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EtradeAPI.DAO
 {
@@ -13,7 +14,9 @@ namespace EtradeAPI.DAO
             conexao.Open();
 
             var query = @"INSERT INTO Produtos (Nome, Descricao, Valor, Usuario, Status) VALUES
-						(@nome,@descricao,@valor,@usuario,@status)";
+						(@nome,@descricao,@valor,@usuario,@status);
+
+                        SELECT LAST_INSERT_ID();";
 
             var comando = new MySqlCommand(query, conexao);
             comando.Parameters.AddWithValue("@nome", produto.Nome);
@@ -22,7 +25,20 @@ namespace EtradeAPI.DAO
             comando.Parameters.AddWithValue("@usuario", produto.Usuario.ID);
             comando.Parameters.AddWithValue("@status", produto.Status.ID);
 
-            comando.ExecuteNonQuery();
+            int idProdutoCadastrado = Convert.ToInt32(comando.ExecuteScalar());
+
+            var queryTurno = @"INSERT INTO ImagensProduto (Link, Produto) VALUES
+                                 (@link,@produto);";
+
+            foreach (var imagem in produto.Imagens)
+            {
+                comando = new MySqlCommand(queryTurno, conexao);
+                comando.Parameters.AddWithValue("@link", imagem.Link);
+                comando.Parameters.AddWithValue("@produto", idProdutoCadastrado);
+
+                comando.ExecuteNonQuery();
+            }
+
             conexao.Close();
         }
 
@@ -38,7 +54,7 @@ namespace EtradeAPI.DAO
                             Usuarios.ID AS UsuarioID,
                             Usuarios.Nome AS Usuario,
                             Celular
-                            FROM Produtos 
+                            FROM Produtos
                             INNER JOIN Usuarios 
                             ON Produtos.Usuario = Usuarios.ID
                             INNER JOIN TurnosUsuario 
@@ -67,6 +83,8 @@ namespace EtradeAPI.DAO
                 usuario.Celular = dataReader["Celular"].ToString();
 
                 produto.Usuario = usuario;
+
+                produto.Imagens = ListarImagensProduto(produto.ID);
 
                 produtos.Add(produto);
             }
@@ -117,6 +135,7 @@ namespace EtradeAPI.DAO
                 produtos.Add(produto);
             }
             conexao.Close();
+
 
             return produtos;
         }
@@ -179,6 +198,32 @@ namespace EtradeAPI.DAO
             comando.ExecuteNonQuery();
 
             conexao.Close();
+        }
+
+        private List<ImagemProdutoDTO> ListarImagensProduto(int produtoID)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var query = @"SELECT Link From ImagensProduto WHERE Produto = @produto";
+
+            var comando = new MySqlCommand(query, conexao);
+            comando.Parameters.AddWithValue("@produto", produtoID);
+
+            var dataReader = comando.ExecuteReader();
+
+            var imagens = new List<ImagemProdutoDTO>();
+
+            while (dataReader.Read())
+            {
+                var imagem = new ImagemProdutoDTO();
+                imagem.Link = dataReader["Link"].ToString();
+
+                imagens.Add(imagem);
+            }
+            conexao.Close();
+
+            return imagens;
         }
     }
 }
